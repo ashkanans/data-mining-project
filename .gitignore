@@ -6,6 +6,7 @@
 # Node artifact files
 node_modules/
 dist/
+*.mp4
 
 # Compiled Java class files
 *.class
@@ -47,4 +48,13 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
+# Latex Configuration Files
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.gz
 

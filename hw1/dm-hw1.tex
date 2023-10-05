@@ -1,0 +1,373 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                            %
+%                    Read constant commands                  %
+%                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{../resources/constants/images path/IMAGE_PATH.tex}
+\input{../resources/constants/images path/IMAGE_NAMES.tex}
+\input{../resources/constants/images path/IMAGE_REFS.tex}
+\input{../resources/constants/configuration/GENERAL_CONFIGURATION.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                            %
+%                       Custom Commands                      %
+%                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Usage: \imageCaptionTable{image path}{image caption}{image label}{text}
+% - The first argument should be the path to the image file in any format.
+% - The second argument should be the caption of the image to be displayed.
+% - The third argument should be the label of the image.
+% - The fourth argument should be the text to be displayed on the right side of the image.
+% - The resulting table will have the image displayed on the left (with the caption and label) and the text on the right.
+
+\newcommand{\imageCaptionTable}[4]{%
+	\begin{tabular}{l l}
+		\includegraphics[width=0.5\textwidth, caption={#2}, label={#3}]{#1} & \centering
+		\begin{varwidth}[t]{0.8\textwidth}
+			\configuratedText{#4}
+		\end{varwidth}
+	\end{tabular}
+}
+
+% Inserts a small image in the middle of a text
+% Usage: \smallimage[optional scale]{image file name}
+% - The optional scale argument (default 0.5) can be used to adjust the size of the image.
+% - The image file should be in the same directory as the LaTeX document.
+
+\newcommand{\smallimage}[2][0.03]{
+	\includegraphics[width=#1\linewidth]{#2}
+}
+
+
+% Creates a new figure with an image centered on the page, and adds a caption and label for reference.
+% Usage: \sectionCenteredfigure[optional scale]{image file name}{caption text}{label}
+% - The optional scale argument (default 0.9) can be used to adjust the width of the image.
+% - The image file should be in the same directory as the LaTeX document.
+% - The caption text should describe the contents of the image.
+% - The label should be a unique identifier for the figure, used for referencing it later in the text.
+
+\newcommand{\sectionCenteredfigure}[4][0.9]{
+	\begin{figure}[H]
+		\centering
+		\fbox{\includegraphics[width=#1\linewidth]{#2}}
+		\caption{#3}
+		\label{fig:#4}
+	\end{figure}
+}
+
+
+% Creates a new block of justified text with a specified font and font size.
+% Usage: \generalText{font family}{font size}{text}
+% - The font family argument specifies the font to be used (e.g., Times New Roman, Arial, etc.).
+% - The font size argument specifies the size of the font (e.g., 12pt, 14pt, etc.).
+% - The text argument should contain the text to be justified.
+% - The resulting block of text will be fully justified (i.e., aligned with both the left and right margins).
+
+\newcommand{\customText}[3]{%
+	\par\begingroup
+	\setlength{\parindent}{0pt}%
+	\linespread{1.3}%
+	\fontsize{#2}{#2}%
+	\fontfamily{#1}\selectfont #3%
+	\par\endgroup%
+}
+
+% Creates a new block of justified text with the font size and font style of configuration file.
+% Usage: \generalText{text}
+% - The font family argument is specfied by \userManualSimpleTextStyle 
+% - The font size argument is specified by \userManualSimpleTextSize
+% - The text argument should contain the text to be justified.
+% - The resulting block of text will be fully justified (i.e., aligned with both the left and right margins).
+
+\newcommand{\configuratedText}[1]{%
+	\par\begingroup
+	\setlength{\parindent}{0pt}%
+	\linespread{1.3}%
+	\selectfont #1%
+	\par\endgroup%
+}
+
+% Defines a new command for referencing figures.
+% Usage: \figref{label}
+% - The argument should be the label of the figure to be referenced.
+% - The resulting output will be in the format "(Figure <number>)", where <number> is the number of the referenced figure.
+% - The label should be defined using \label{fig:<label>} command in the figure environment.
+% - The \hyperref command creates a hyperlink to the referenced figure.
+% - The \ref* command produces only the number of the referenced figure, without the preceding "Figure" text.
+
+\newcommand{\figref}[1]{(\hyperref[fig:#1]{Figure \ref*{fig:#1}})}
+
+% Creates a new table with an icon and its name.
+% Usage: \customTable{icon path}{icon name}
+% - The first argument should be the path to the icon file in PNG format.
+% - The second argument should be the name of the icon to be displayed.
+% - The resulting table will have the icon displayed on the left and its name on the right.
+
+\newcommand{\iconNameTable}[2]{%
+	\begin{tabular}{l l}
+		\includegraphics[width=0.03\textwidth]{#1} & \centering 
+		\begin{varwidth}[t]{0.8\textwidth}
+			\configuratedText{#2}
+		\end{varwidth}
+	\end{tabular}
+}
+
+% Creates a new table with an icon and its name.
+% Usage: \customTable{icon path}{icon name}
+% - The first argument should be a text.
+% - The second argument should be a text.
+% - The resulting table will have the text displayed on the left and a text on the right.
+
+\newcommand{\textTextTable}[3][2cm]{%
+	\begin{tabular}{p{#1} p{\dimexpr0.90\textwidth-#1}}
+		\configuratedText{#2}
+		&
+		\begin{varwidth}[t]{\linewidth}
+			\configuratedText{#3}
+		\end{varwidth}
+	\end{tabular}
+}
+
+% Creates a new table with an icon, its name, and its description.
+% Usage: \iconNameDescriptTable{icon path}{icon name}{icon description}
+% - The first argument should be the path to the icon file in PNG format.
+% - The second argument should be the name of the icon to be displayed.
+% - The third argument should be a description of the icon.
+% - The resulting table will have the icon displayed on the left, its name in the middle, and its description on the right.
+% - The table has three columns with widths of 0.1, 0.3, and 0.5 times the text width, respectively.
+% - The second and third columns are aligned to the left.
+
+\newcommand{\iconNameDescriptTable}[3]{%
+	\begin{tabular}{p{0.05\textwidth} p{0.2\textwidth} m{0.6\textwidth}}
+		\includegraphics[width=0.03\textwidth]{#1} & \raggedright \configuratedText{#2} & \justify \configuratedText{#3} \
+	\end{tabular}
+}
+
+% Creates a new table with an text, its name, and its description.
+% Usage: \textDescriptTable{text}{text name}{text description}
+% - The first argument should be the text to be displayed on the left.
+% - The second argument should be the name of the text.
+% - The third argument should be a description of the text.
+% - The resulting table will have the text displayed on the left, its name in the middle, and its description on the right.
+% - The table has three columns with widths of 0.1, 0.3, and 0.5 times the text width, respectively.
+% - The second and third columns are aligned to the left.
+
+\newcommand{\textDescriptTable}[3]{%
+	\begin{tabular}{m{0.1\textwidth} m{0.1\textwidth} m{0.5\textwidth}}
+		\raggedright \configuratedText{#1} & \raggedright \configuratedText{#2} & \raggedright \configuratedText{#3} \
+	\end{tabular}
+}
+
+% Creates a new block of two columns with an image on the left and justified text on the right.
+% Usage: \twocolumns{optional scale}{image file name}{caption text}{font family}{font size}{text}
+
+% - 1: The optional scale argument (default 0.9) can be used to adjust the width of the image.
+% - 2: The image file should be in the same directory as the LaTeX document.
+% - 3: The caption text should describe the contents of the image.
+% - 4: The font family argument specifies the font to be used (e.g., Times New Roman, Arial, etc.).
+% - 5: The font size argument specifies the size of the font (e.g., 12pt, 14pt, etc.).
+% - 6: The text argument should contain the text to be justified.
+
+\newcommand{\twoColumns}[6]{
+	\begin{minipage}[t]{0.50\textwidth}
+		\customText{#4}{#5}{#6}
+	\end{minipage}\hfill
+	\begin{minipage}[r]{0.45\textwidth}
+
+	\end{minipage}
+}
+
+\documentclass[12]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{tocloft}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{times}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{wrapfig}
+\usepackage{array}
+\usepackage{varwidth}
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{ragged2e}
+\usepackage{todonotes}
+\usepackage{tocloft}
+\usepackage{changepage}
+
+\cftsetindents{section}{1.5em}{5.0em}
+\cftsetindents{subsection}{2em}{5.0em}
+\cftsetindents{subsubsection}{3em}{5.0em}
+
+% Use the new command to set the font sizes and titleformat settings
+\myheadingstyles
+
+% Customize hyperlinks in the document
+\hypersetup{
+	colorlinks=true, % enable colored hyperlinks
+	linkcolor=blue, % set the color of internal links to black
+	filecolor=magenta, % set the color of links to local files to magenta
+	urlcolor=blue, % set the color of links to URLs to blue
+	bookmarks=true, % enable the creation of bookmarks in the PDF file
+}
+
+\geometry{
+	a4paper, % set paper size to A4
+	left=2cm, % set left margin to 2cm
+	right=2cm, % set right margin to 2cm
+	top=2.5cm, % set top margin to 2.5cm
+	bottom=2.5cm % set bottom margin to 2.5cm
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                            %
+%                    Document Starts Here                    %
+%                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+	
+	\begin{center}
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.4\linewidth]{\dmFiveTwelve}
+		\end{figure}
+		\vspace{1cm} 
+		{\fontsize{28}{34}\selectfont \textbf{Data Mining}}
+	\end{center}
+
+	\vspace{1cm} 
+	
+	\begin{center}
+	{\fontsize{22}{28}\selectfont \textbf{Homework \underline{1}}}
+	\end{center}
+
+	\vspace{1cm} 
+
+	\begin{center}
+	{\fontsize{22}{28}\selectfont Ashkan Ansarifard}
+	\end{center}
+
+	\vspace{0.5cm} 
+	
+	\begin{center}
+	{\fontsize{22}{28}\selectfont 1970082}
+	\end{center}
+
+	\vspace{1cm} 
+	
+	\textcolor{blue!60!black}{\rule{\linewidth}{2pt}}
+	
+	\vspace{5cm} 
+	
+	\begin{center}
+	\textbf{A.Y. 2022/23}
+	\end{center}
+
+	\thispagestyle{empty}
+	
+	\newpage
+	
+	\myTOC
+
+	\newpage
+	\section*{Problem 1}\label{sec:prob-1}
+	\configuratedText{	
+	
+	\begin{enumerate}
+	\item 	I choose the probability space such that each element in $\Omega$ corresponds to a unique ordering of the cards in the deck.\\
+	Mathematically, $\Omega = \{\sigma_1, \sigma_2, \sigma_3, \ldots, \sigma_{52!}\}$, where each $\sigma_i$ is a distinct permutation.\\
+	Since each permutation in $\Omega$ is equally likely when we shuffle a standard deck of cards, we have a uniform probability distribution.\\
+	The probability measure $P$ assigns equal probabilities to all permutations in $\Omega$. Therefore, for any event $A \subseteq \Omega$, we have:\\
+	\[P(A) = \frac{|A|}{52!}\]\\
+	Specifically, for each individual permutation $\sigma_i$ in $\Omega$:\\
+	\[P(\sigma_i) = \frac{1}{52!}\]\\
+	
+	\item 	Probability of the each event is:
+	\begin{enumerate}
+	\item \textbf{Finding the probability that the first two cards include at least one ace}
+	
+	We can use the complement rule:
+	\[ \text{Probability (at least one ace in the first two cards)} =\]
+	\[ 1 - \text{ Probability (no aces in the first two cards)} \]
+	
+	Now, let's calculate the probability of not getting any aces in the first two cards. There are 52 cards in the deck initially, and 48 of them are not aces. When we pick the first card, there are 48 non-ace cards out of 52 possibilities. After picking the first card, there are now 51 cards left in the deck, with 47 of them being non-ace cards. Therefore, the probability of not getting an ace on the second card, given that the first card was not an ace, is:
+	\[ \frac{48}{52} \cdot \frac{47}{51} \]
+	
+	So, the probability that the first two cards contain at least one ace is:
+	\[ 1 - \left( \frac{48}{52} \cdot \frac{47}{51} \right) \approx 0.1494 \]
+	
+	\item \textbf{Finding the probability that the first five cards include at least one ace}
+	
+	Same as item (a) we can use the complement rule:
+	\[ \text{Probability (at least one ace in the first five cards)} =\]
+	\[ 1 - \text{ Probability (no aces in the first five cards)} \]
+	
+	Same as previous item, the probability of not getting an ace on the first 5 cards, is:
+	\[ \frac{48}{52} \cdot \frac{47}{51} \cdot \frac{46}{50} \cdot \frac{45}{49} \cdot \frac{44}{28}\]
+	
+	So, the probability that the first five cards include at least one ace:
+	\[ 1 - \left(\frac{48}{52} \cdot \frac{47}{51} \cdot \frac{46}{50} \cdot \frac{45}{49} \cdot \frac{44}{28} \right) \approx 0.3147 \]
+	
+	\item \textbf{The first two cards are a pair of the same rank}
+
+	\item \textbf{The first five cards are all diamonds.}
+	
+	There are 13 diamonds in a standard deck.
+	
+	The probability of drawing a diamond on the first draw is $ \frac{13}{52} $ because there are 13 diamonds out of 52 cards.
+	
+	Similarly, for the second, third, fourth, and fifth draws, the probabilities are as follows:
+	
+	Second draw: $ \frac{12}{51} $\\
+	Third draw: $ \frac{11}{50} $\\
+	Fourth draw: $ \frac{10}{49} $\\
+	Fifth draw: $ \frac{9}{48} $\\
+	
+	Because these are independent events, we can multiply these probabilities together:
+	\[ \frac{13}{52} \cdot \frac{12}{51} \cdot \frac{11}{50} \cdot \frac{10}{49} \approx 0.00018184\]
+	
+	So, the probability of drawing the first five cards as diamonds is approximately 0.00018184, or about 0.0182%.
+	
+	\item \textbf{The first two cards are a pair of the same rank}
+		
+	\end{enumerate}
+	\end{enumerate}
+	}
+
+	\newpage
+	\section*{Problem 2}\label{sec:prob-2}
+
+
+	\newpage
+	\section*{Problem 3}\label{sec:prob-3}
+
+
+	\newpage
+	\section*{Problem 4}\label{sec:prob-4}
+
+
+	\newpage
+	\section*{Problem 5}\label{sec:prob-5}
+
+
+	\newpage
+	\section*{Problem 6}\label{sec:prob-6}
+
+
+	\newpage
+	\section*{Problem 7}\label{sec:prob-7}
+
+	
+	
+	
+\end{document}

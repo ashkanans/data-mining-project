@@ -366,8 +366,45 @@
 
 	\newpage
 	\section*{Problem 7}\label{sec:prob-7}
+	For this problem a console program based on two libraries:
+	\begin{enumerate}
+	\item 	\textit{requests} Python library $ \rightarrow $ DirectAPIClient.py
+	\item 	\textit{meteomatics.api} library $ \rightarrow $ HighLevelAPIClient.py
+	\end{enumerate}
+	
+	\subsection*{Retrieving Data Using DirectAPIClient Class}
+	The \texttt{DirectAPIClient} class retrieves weather data from the Meteomatics API through the following steps:
+	
+	\begin{enumerate}
+	\item It formats the time range for the query using the provided start date, end date, and interval.
+	\item The API URL is constructed by combining the base URL, time range, selected parameters, coordinates (latitude and longitude), and specifying the output format as JSON.
+	\item An HTTP GET request is sent to the constructed API URL, including your Meteomatics API username and password for authentication.
+	\item The response from the API is captured and checked for its status code.
+	\item In the case of a successful response (status code 200), the function parses the JSON response and extracts the weather data.
+	\item The weather data is processed to obtain time series for each selected parameter.
+	\item A Plotly figure is created, with traces (lines) added for each parameter to visualize trends over time.
+	\item The function includes error handling for errors based on the given HTTP status codes and provides informative error messages.
+	\item Also exception handling is implemented to catch any unexpected exceptions during the process.
+	\item The Plotly figure is displayed, allowing users to analyze and visualize the weather data.
+	\end{enumerate}
+	
+	\newpage
+	\subsection*{How to Use The Program}
+	
+	\configuratedText{Run Python Main.py
+	
+	Follow the prompts to select parameters, input dates and time intervals, and choose either the high-level or direct API client.
+	
+	The program will then query the Meteomatics API, retrieve weather data, and display it as a Plotly graph.
+	
+	You can visualize and analyze the trends of the selected weather parameters over a any time period that you want.}
 
-	
-	
+	\newpage
+	\subsection*{Example}
+	In this example, Precipitation, Wind speed, Pressure, Weather Symbol and UV trend over 24 hours is plotted.
+
+	\sectionCenteredfigure{\exampleConsole}{Console Output of the Example}{console-outputs-of-the-example}
+		
+	\sectionCenteredfigure{\examplePlot}{Plot of Precipitation, Wind speed, Pressure, Weather Symbol and UV trend over 24 hours}{example-plot}
 	
 \end{document}

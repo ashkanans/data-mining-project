@@ -477,7 +477,31 @@
 
 	\newpage
 	\section*{Problem 4}\label{sec:prob-4}
-
+	To find the expectation of X, we need to calculate the average number of times the word ``mining'' appears in a randomly typed sequence of $100,000,000,000$ letters.\\
+	
+	The word ``mining'' consists of $6$ letters, and each letter has an equal probability of being typed by the monkey. So, the probability of the monkey typing the word ``mining'' in a specific order is $\left(\frac{1}{26}\right)^6$.\\
+	
+	Now, let's calculate the number of possible positions where the word ``mining'' can start in a sequence of $100,000,000,000$ letters. Since there are $100,000,000,000 - 6 + 1 = 99,999,999,995$ possible starting positions, the probability of the monkey typing the word ``mining'' in any of these positions is $99,999,999,995 \left(\frac{1}{26}\right)^6$.\\
+	
+	To find the expectation of X, we multiply the probability of the monkey typing the word ``mining'' in any given position by the total number of possible starting positions:
+	
+	\[
+	\text{Expectation of } X = 99,999,999,995 \left(\frac{1}{26}\right)^6
+	\]
+	
+	Let's calculate this value:
+	
+	\[
+	\text{Expectation of } X = 99,999,999,995 \left(\frac{1}{26}\right)^6
+	\]
+	\[
+	\text{Expectation of } X \approx 99,999,999,995 \times 3.2371e^{-9}
+	\]
+	\[
+	\text{Expectation of } X \approx 323.71
+	\]
+	
+	Therefore, the expectation of $X$, the number of times the word ``mining'' appears, is approximately $323.71$.
 	
 	\newpage
 	\section*{Problem 5}\label{sec:prob-5}

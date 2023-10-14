@@ -202,6 +202,8 @@
 \usepackage{todonotes}
 \usepackage{tocloft}
 \usepackage{changepage}
+\usepackage{graphicx,scalerel}
+\usepackage{amsmath}
 
 \cftsetindents{section}{1.5em}{5.0em}
 \cftsetindents{subsection}{2em}{5.0em}
@@ -270,7 +272,7 @@
 	\vspace{5cm} 
 	
 	\begin{center}
-	\textbf{A.Y. 2022/23}
+	\textbf{A.Y. 2023/24}
 	\end{center}
 
 	\thispagestyle{empty}
@@ -366,18 +368,18 @@
 	\]
 	
 	\end{enumerate}
-	\item Simulation results:
+	\item Simulation results\footnote{Results are derived from CardSimulator in repo/problem1/CardSimulator.py}:
 	\begin{table}[H]
-	    \centering % Center the table on the page
-	    \begin{tabular}{|c|c|c|c|} % Define a 3-column table with center-aligned columns
+	    \centering 
+	    \begin{tabular}{|c|c|c|c|} 
 	        \hline
 	        \textbf{Event} & \textbf{Analytical Solution} & \textbf{Simulation (10,000 iterations)} & \textbf{Simulation (100,000 iterations)}\\
 	        \hline
-	        \textbf{a} & 0.1494 & 0.1529 & 0.1492\\
-	        \textbf{b} & 0.3411 & 0.3411 & 0.3397\\
-	        \textbf{c} & 0.0588 & 0.0591 & 0.0585\\
-	        \textbf{d} & 0.0001 & 0.0006 & 0.0005\\
-	        \textbf{r} & 0.0014 & 0.0020 & 0.0014\\
+	        \large \textbf{a} & \large 0.1494 & \large 0.1529 & \large 0.1492\\
+	        \large \textbf{b} & \large 0.3411 & \large 0.3411 & \large 0.3397\\
+	        \large \textbf{c} & \large 0.0588 & \large 0.0591 & \large 0.0585\\
+	        \large \textbf{d} & \large 0.0001 & \large 0.0006 & \large 0.0005\\
+	        \large \textbf{r} & \large 0.0014 & \large 0.0020 & \large 0.0014\\
 	        \hline
 	    \end{tabular}
 	\end{table}
@@ -520,20 +522,20 @@
 	
 	\newpage
 	\section*{Problem 5}\label{sec:prob-5}
-	To find the probability of seeing a bicycle in a given time interval, we can assume that the probability of seeing a bicycle remains constant over time. 
+	To find the probability of seeing a bicycle in a given time interval, as said in the problem, we can assume that the probability of seeing a bicycle remains constant over time. 
 	
-	We already know the probability of seeing a bicycle in 45 minutes as P(45), which is 97\%. We want to find the probability of seeing a bicycle in a 15-minute interval, written as P(15).
+	We already know the probability of seeing a bicycle in 45 minutes as $ P(45) $, which is 97\%. We want to find the probability of seeing a bicycle in a 15-minute interval, written as $ P(15) $.
 	
 	Since the probability remains constant, we can assume that the ratio of probabilities is the same as the ratio of time intervals:
 	
 	\[
 	\frac{{P(15)}}{{P(45)}} = \frac{{15}}{{45}}\]
 	
-	To find P(15), we can rearrange the equation:
+	To find $ P(15) $, we can rearrange the equation:
 	
 	\[P(15) = \frac{{15}}{{45}} \times P(45)\]
 	
-	Substituting the given value of P(45) as 97\% or 0.97:
+	Substituting the given value of $ P(45) $ as 97\% or 0.97:
 	
 	\[P(15) = \frac{{15}}{{45}} \times 0.97\]
 	
@@ -546,22 +548,61 @@
 	\newpage
 	\section*{Problem 6}\label{sec:prob-6}
 	\begin{enumerate}
-	\item 
-	\item 
-	\item 
-	\item 
-	\item 
+	\item Erd\H{o}s--R\'enyi random graph is denoted by $\mathcal{G}(n,p) = (\Omega, \mathcal{F}, P)$  where $ \Omega $ is the sample space of all possible graphs on n vertices with the size: $ |\Omega| = 2^N = 2^{n \choose 2}$, $ \mathcal{F} $ are the events and $ P $ would be the probability measure that for each graph
+	\item If we fix $ p \in [0, 1] $ and choose edges according to Bernoulli’s trials, then $ P $ would be: $G \in \Omega $ assigns probability: $ P(G) = p^m \cdot (1 - p)^{N - m} $
+	where m is the number of edges in G
+	\item To calculate the probability of exactly one triangle, we need to consider:
+	\begin{itemize}
+	\item Choosing the Three Nodes for the Triangle:
+	Choosing three nodes out of $ n $: $ {n \choose 3} $
+	\item Ensuring the Presence of Edges within the Triangle:
+	the probability of these edges existing within the triangle is $ p^3 $ because these events are independent.
+	\item Ensuring No Other Edges:
+	To ensure no other edges are present in the graph, all the remaining pairs of nodes should not have edges between them. The probability of this is $ (1-p)^{({n \choose 3} - 3)} $
+	\end{itemize}	
+	So, overall: $ P(\text{Exactly one triangle}) = \binom{n}{3} \cdot (p^3) \cdot (1-p)^{\frac{n(n-1)}{2} - 3} $
+
+	\item Similar to the previous event, here we need to consider the following:
+	\begin{itemize}
+	\item There are $ (n-1) $ edges in the path, and all of them must exist with probability $ p $.
+	\item Since these edges are independent, we can raise the probability $ p $ to the power of $ (n-1) $ to account for the presence of all these edges.
+	\item The remaining edges, that could form triangles or other shape in the graph should not exist. So, we also need to account for the absence of these additional edges.
+	The probability of edges not in the path not existing is $ (1 - p) $, and there are $ {n \choose 2} - (n - 1) $ such edges.
+	\end{itemize}	
+	So, $ P(\text{All nodes connected in a line}) = (p^{n-1}) \cdot ((1 - p)^{\binom{n}{2} - (n - 1)}) $
+	
+	\item The expected number of edges in a random graph created according to the $\mathcal{G}(n,p)$ model can be found using the concept of linearity of expectation.
+	for each pair of nodes $ (i, j) $, we can calculate the expected number of edges contributed by that pair:
+	\begin{itemize}
+	\item If the edge $ (i, j) $ exists, it contributes $ 1 $ edge with probability $ p $.
+	\item If the edge $ (i, j) $ does not exist, it contributes $ 0 $ edges with probability $ (1 - p) $.
+	\end{itemize}
+	
+	$ \text{Expected number of edges} = \text{Sum of expectations for all pairs of nodes} $
+	\begin{multline*}
+	\text{Expected number of edges} = p \cdot (\text{number of ways to choose 2 nodes}) \cdot 1 \\
+	+ (1 - p) \cdot (\text{number of ways to choose 2 nodes}) * 0
+	\end{multline*}
+	So, the $ \text{expected number of edges} = p \cdot {n \choose 2}  = p \cdot \frac{n(n-1)}{2}$
 	\item 
 	\item 
 	\end{enumerate}
 
 	\newpage
 	\section*{Problem 7}\label{sec:prob-7}
-	For this problem a console program based on two libraries:
+	For this problem a console program is implemented based on retrieving data using two different libraries:
 	\begin{enumerate}
 	\item 	\textit{requests} Python library $ \rightarrow $ DirectAPIClient.py
 	\item 	\textit{meteomatics.api} library $ \rightarrow $ HighLevelAPIClient.py
 	\end{enumerate}
+	
+	\configuratedText{Initially, the user chooses based on which library he wants to retrieve the data.
+	
+	The \textbf{HighLevelAPIClient} class, uses meteomatics.api library which is a connector created by meteomatics  to simplify the integration of the data into existing workflows. It is more easy to use and is supported in several programming languages.
+	
+	The \textbf{DirectAPIClient} class uses requests Python library in which we construct the API URL ourself. 
+	
+	Both of these classes can be used in this program but because using requests Python library was requested in the problem 7, I describe more in detail what I'm doing in DirectAPIClient class to retrieve the data.}
 	
 	\subsection*{Retrieving Data Using DirectAPIClient Class}
 	The \texttt{DirectAPIClient} class retrieves weather data from the Meteomatics API through the following steps:
@@ -579,7 +620,6 @@
 	\item The Plotly figure is displayed, allowing users to analyze and visualize the weather data.
 	\end{enumerate}
 	
-	\newpage
 	\subsection*{How to Use The Program}
 	
 	\configuratedText{Run Python Main.py
